@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Petualangan Matematika: Misi Menaklukkan PLSV dan PtLSV</title>
+<style>
+:root{--bg:#f7fbff;--card:#fff;--ink:#18324b;--muted:#5f7388;--line:#d8e5ef;--acc:#2b6cb0;--soft:#eef5fb;--ok:#e9f8f0;--okt:#137244;--bad:#fff0f0;--badt:#9b3434;--warn:#fff8e6;--gold:#f4c400;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1b28;--card:#172636;--ink:#e6f0fa;--muted:#9db2c6;--line:#2b4156;--acc:#5aa2ee;--soft:#1d3144;--ok:#12372a;--okt:#7fe0ae;--bad:#3b1f22;--badt:#f2a8a8;--warn:#3a3016}}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--card);border-bottom:1px solid var(--line)}
+.wrap{max-width:1040px;margin:auto;padding:0 16px}
+.hb{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;padding:10px 0}
+.brand{font-weight:800}
+.tn{display:flex;flex-wrap:wrap;gap:6px}
+.tn button{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:6px 11px;border-radius:999px;cursor:pointer;font-weight:700;font-size:.85rem}
+.tn button.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+.prog{height:8px;background:var(--soft);border-radius:99px;overflow:hidden;min-width:140px}
+.prog div{height:100%;width:0;background:var(--acc);transition:width .3s}
+main{max-width:1040px;margin:20px auto;padding:0 16px 100px}
+.page{display:none}.page.on{display:block;animation:f .25s}
+@keyframes f{from{opacity:.2;transform:translateY(4px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;margin-bottom:16px;box-shadow:0 8px 20px rgba(28,90,140,.08)}
+.hero{text-align:center;background:linear-gradient(135deg,#e8f7ff,#f8efff);color:#18324b;padding:30px 20px}
+.hero p{color:#3b566e}
+h1{font-size:clamp(28px,5vw,46px);line-height:1.1;margin:8px 0 10px}h2{margin:0 0 10px;font-size:clamp(22px,3vw,30px)}h3{margin:6px 0}
+p{line-height:1.65}.sm{font-size:.92rem;color:var(--muted)}
+.g{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.badge{display:inline-block;background:var(--soft);color:var(--acc);padding:5px 11px;border-radius:99px;font-weight:700;font-size:.85rem}
+button.a{border:0;border-radius:12px;padding:10px 15px;font-weight:700;cursor:pointer;background:var(--acc);color:#fff;margin:4px 4px 4px 0}
+button.s{background:var(--soft);color:var(--ink);border:1px solid var(--line)}
+button:disabled{opacity:.5;cursor:not-allowed}
+.choice{display:block;border:1px solid var(--line);border-radius:12px;padding:10px 13px;margin:7px 0;background:var(--card);cursor:pointer}
+input[type=radio]{margin-right:8px}
+input[type=text],input[type=number],textarea,select{width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;font:inherit;background:var(--card);color:var(--ink)}
+textarea{min-height:80px}
+.fb{display:none;margin-top:9px;padding:10px 12px;border-radius:12px}.fb.show{display:block}
+.fb.ok{background:var(--ok);color:var(--okt)}.fb.bad{background:var(--bad);color:var(--badt)}.fb.hint{background:var(--warn)}
+.call{background:var(--soft);border-left:5px solid var(--acc);padding:13px 15px;border-radius:10px;margin:10px 0}
+.nb{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));z-index:30}
+.nb .wrap{display:flex;justify-content:space-between;gap:10px}
+.fig{text-align:center;overflow-x:auto}.fig svg{max-width:100%;height:auto}
+.eq{font-size:1.35rem;font-weight:800;text-align:center;padding:10px}
+table{width:100%;border-collapse:collapse}th,td{border:1px solid var(--line);padding:9px;text-align:left}th{background:var(--soft)}
+.step{background:var(--soft);border-radius:10px;padding:9px 13px;margin:7px 0}
+.stat{display:flex;gap:10px;flex-wrap:wrap}.stat div{flex:1;min-width:120px;background:var(--soft);border-radius:14px;padding:12px;text-align:center}.stat b{display:block;font-size:1.4rem}
+.mc{border:1px solid var(--line);border-radius:16px;padding:16px;margin:12px 0;background:var(--card)}.mc.lock{opacity:.6}.mc.done{border-color:#1e9d62}
+.bar{height:14px;background:var(--soft);border:1px solid var(--line);border-radius:99px;overflow:hidden}.bar div{height:100%;width:0;background:linear-gradient(90deg,#f4c400,#f0932b);transition:width .5s}
+.vw{position:relative;width:100%;padding-top:56.25%;border-radius:16px;overflow:hidden;background:#000;margin:12px 0 6px}.vw iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.mw{position:relative;perspective:1000px;height:clamp(350px,58vw,560px);border-radius:20px;overflow:hidden;background:linear-gradient(180deg,#0a2540 0%,#14527a 50%,#1f86b5 100%);box-shadow:0 14px 34px rgba(9,28,44,.35);margin:10px 0}
+.mw .top{position:absolute;left:14px;right:14px;top:12px;z-index:5;display:flex;justify-content:space-between;align-items:center;gap:8px;color:#fff;font-size:.74rem;font-weight:900;letter-spacing:.08em;text-shadow:0 2px 5px #0b1c2c}
+.chip{background:rgba(11,34,52,.78);border:1px solid rgba(255,255,255,.4);padding:6px 12px;border-radius:99px;letter-spacing:0}.chip b{color:#ffe28a}
+.mp3{position:absolute;left:3%;right:3%;top:15%;bottom:3%;transform-style:preserve-3d;transform:rotateX(54deg);border-radius:22px;box-shadow:0 30px 40px rgba(0,0,0,.35);background:radial-gradient(ellipse 60% 66% at 50% 50%,#8fdc6f 0 55%,#f1d98f 56% 64%,rgba(255,255,255,.55) 65% 68%,rgba(255,255,255,0) 70%),repeating-linear-gradient(115deg,rgba(255,255,255,.07) 0 14px,rgba(255,255,255,0) 14px 34px),#1f86b5}
+.mp3::before{content:'';position:absolute;inset:6% 4%;transform:translateZ(-16px);background:#2f7f37;border-radius:50%}
+.rt{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.sh{position:absolute;width:44px;height:14px;border-radius:50%;background:rgba(0,0,0,.38);transform:translate(-50%,-50%)}
+.bb{position:absolute;transform-origin:50% 100%;transform:translate(-50%,-100%) rotateX(-54deg);text-align:center}
+.pin{width:46px;height:46px;border-radius:50%;border:4px solid #2389c4;background:linear-gradient(145deg,#fff,#d7edff);color:#176a9c;font-weight:900;font-size:1.05rem;cursor:pointer;box-shadow:0 6px 0 #145477,0 10px 14px rgba(0,0,0,.4);padding:0;display:block;margin:auto}
+.pin.cur{background:linear-gradient(145deg,#fff6bd,#ffb72d);border-color:#fff0a1;color:#9b4b00;box-shadow:0 0 0 7px rgba(255,211,83,.35),0 6px 0 #a85a08,0 10px 18px rgba(0,0,0,.45);animation:pp 1.8s infinite}
+.pin.dn{background:linear-gradient(145deg,#e5ffef,#25b96d);border-color:#b8ffd3;color:#08763c;box-shadow:0 6px 0 #08763c,0 10px 14px rgba(0,0,0,.4)}
+.pin.lk{filter:grayscale(.5) brightness(.85)}.pin.sel{outline:3px solid #fff;outline-offset:2px}
+.bb small{display:inline-block;margin-top:5px;font-size:.62rem;font-weight:900;color:#fff;background:rgba(12,30,43,.85);padding:2px 7px;border-radius:6px;white-space:nowrap;letter-spacing:.05em}
+.chs{font-size:2.5rem;cursor:pointer;filter:drop-shadow(0 6px 6px rgba(0,0,0,.5))}.chs.rd{animation:pc 1s infinite}
+.dc{font-size:2.3rem;pointer-events:none}
+.lg{position:absolute;left:12px;bottom:10px;z-index:5;display:flex;gap:6px;flex-wrap:wrap}.lg span{font-size:.62rem;color:#fff;font-weight:800;background:rgba(8,27,42,.78);border:1px solid rgba(255,255,255,.35);border-radius:99px;padding:5px 8px}
+@keyframes pp{0%,100%{box-shadow:0 0 0 5px rgba(255,211,83,.3),0 6px 0 #a85a08,0 10px 18px rgba(0,0,0,.45)}50%{box-shadow:0 0 0 12px rgba(255,211,83,.1),0 6px 0 #a85a08,0 10px 18px rgba(0,0,0,.45)}}
+@keyframes pc{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
+@media(max-width:600px){.pin{width:38px;height:38px;font-size:.9rem;border-width:3px}.chs{font-size:2rem}.dc{font-size:1.8rem}.mw .top{font-size:.6rem}}
+@media print{.cert{border:8px double #d4af37;border-radius:24px;padding:40px 30px;text-align:center;max-width:760px;margin:20px auto;-webkit-print-color-adjust:exact;print-color-adjust:exact}.cert h1{font-size:38px;color:#7a5a00;margin:8px 0}.cert .nm{font-size:32px;font-weight:700;border-bottom:2px solid #c9a545;display:inline-block;padding:0 24px 8px;margin:14px 0}.cert .md{font-size:56px}.cert p{font-size:17px;line-height:1.6;color:#5a4700}}
+#pr{display:none}
+@media print{header,main,.nb{display:none!important}#pr{display:block;color:#000;background:#fff;font:15px Arial;padding:20px}#pr section{border:1px solid #bbb;border-radius:8px;padding:8px 14px;margin:10px 0}}
+.m3 .top,.m3 .lg{pointer-events:none}.m3{perspective:none}
+.cm{position:fixed;inset:0;z-index:100;background:rgba(5,15,25,.78);display:flex;padding:16px;overflow:auto}.cm[hidden]{display:none}
+.cmb{max-width:640px;width:100%;margin:auto;animation:pop .45s cubic-bezier(.2,1.4,.4,1)}.cma{text-align:center;margin-top:12px}
+@keyframes pop{from{opacity:0;transform:scale(.6) rotateX(40deg)}to{opacity:1;transform:none}}
+.cm .cert{background:linear-gradient(135deg,#fffbea,#fff3c4);color:#5a4700;border:8px double #d4af37;border-radius:24px;padding:28px 20px;text-align:center}
+.cm .cert h1{font-size:clamp(24px,5vw,36px);color:#7a5a00;margin:6px 0}.cm .cert .md{font-size:52px}.cm .cert p{margin:6px 0;color:#5a4700}
+.cm .cert .nm{font-size:clamp(22px,5vw,30px);font-weight:700;border-bottom:2px solid #c9a545;display:inline-block;padding:0 24px 8px;margin:10px 0}
+.cx{position:fixed;top:calc(10px + env(safe-area-inset-top,0px));right:12px;z-index:120;width:46px;height:46px;border-radius:50%;border:2px solid #fff;background:#c62828;color:#fff;font-size:1.3rem;font-weight:900;cursor:pointer;padding:0}
+.cmb{position:relative;padding-top:44px}
+.cid{background:var(--card);color:var(--ink);border-radius:14px;padding:12px;margin-bottom:12px}.cid .g3{display:grid;gap:8px;grid-template-columns:2fr 1fr 1fr;margin-top:6px}.cmw{color:var(--badt);font-weight:700;margin-top:6px}
+.cma{position:sticky;bottom:0;background:rgba(5,15,25,.9);padding:10px;border-radius:14px}
+@media(max-width:600px){.cid .g3{grid-template-columns:1fr}.cm .cert{padding:16px 12px}.cm .cert .md{font-size:40px}}
+@media print{.cm,.cx{display:none!important}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><div class="hb"><div class="brand">🧮 MPI PLSV &amp; PtLSV</div><nav class="tn" id="tn"></nav><div class="prog"><div id="prog"></div></div></div></div></header>
+<main>
+
+<section class="page on" data-t="Beranda">
+<div class="card hero"><span class="badge">Media Pembelajaran Interaktif · Matematika SMP</span>
+<h1>Petualangan Matematika: Misi Menaklukkan PLSV dan PtLSV</h1>
+<p>Seimbangkan timbangan, jelajahi garis bilangan, dan taklukkan misi untuk membuka peti harta karun!</p>
+<button class="s a mbtn" onclick="tgM()">🎵 Musik: Nyala</button><button class="s a" id="vo" onclick="VO=!VO;if(!VO)speechSynthesis.cancel();this.textContent='🔊 Suara: '+(VO?'Nyala':'Mati');if(VO)welcome(S.n)">🔊 Suara: Nyala</button></div>
+<div class="card"><h2>🎯 Siap Berpetualang?</h2>
+<p>Langsung mulai saja. Nama, kelas, dan nomor absen diisi nanti, saat kamu mencetak sertifikat petualangan.</p>
+<div class="call"><b>Tujuan belajar:</b> (1) membedakan PLSV dan PtLSV, (2) menyelesaikannya langkah demi langkah, (3) menyajikan himpunan penyelesaian pada garis bilangan, (4) menyelesaikan masalah kontekstual.</div>
+<button class="a" onclick="start()">Mulai Petualangan ▶</button><div class="fb" id="fbid"></div></div>
+</section>
+
+<section class="page" data-t="Apersepsi">
+<div class="card"><h2>⚖️ Apersepsi: Timbangan Keseimbangan</h2>
+<h3>🎬 Tonton dulu videonya</h3>
+<div class="vw"><iframe src="https://www.youtube.com/embed/rwVPJsAFs1w" title="Video apersepsi PLSV dan PtLSV" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>
+<p class="sm">Video tidak tampil? <a href="https://youtu.be/rwVPJsAFs1w" target="_blank" rel="noopener">Buka di YouTube</a>.</p>
+<h3>🤔 Setelah menonton, jawab ya!</h3><div id="ap"></div>
+<label><b>3.</b> Menurutmu, apa perbedaan “timbangan seimbang” dan “timbangan miring”?<textarea id="ap3" placeholder="Tuliskan dengan kata-katamu sendiri"></textarea></label>
+<p class="sm">Jawaban nomor 3 tidak dinilai, hanya untuk melatih berpikir.</p>
+<h3>⚖️ Sekarang coba sendiri</h3>
+<p>Sebuah kotak berisi x kg berada di sisi kiri bersama 2 kg beban. Sisi kanan berisi 7 kg beban. Timbangan seimbang. Coba lakukan operasi berikut dan amati!</p>
+<div class="fig" id="sc"></div><div class="eq" id="sq"></div>
+<div style="text-align:center"><button class="a" onclick="sw('sub')">Kurangi 2 kg di kedua sisi</button><button class="a s" onclick="sw('add')">Tambah 3 kg di kiri saja</button><button class="a s" onclick="sw('rst')">Ulangi</button></div>
+<div class="fb" id="sfb"></div>
+<div class="call"><b>Pertanyaan pemantik:</b> Mengapa timbangan tetap seimbang jika kedua sisi diberi perlakuan yang sama? Hubungkan dengan menyelesaikan persamaan.</div></div>
+</section>
+
+<section class="page" data-t="Konsep PLSV">
+<div class="card"><h2>🔍 Konsep PLSV</h2>
+<div class="g"><div class="call"><h3>PLSV</h3><p><b>Persamaan Linear Satu Variabel</b>: kalimat terbuka dengan tanda “=”, satu variabel berpangkat satu.</p><p class="eq">2x + 3 = 11</p><p class="sm">Penyelesaian berupa satu nilai: x = 4.</p></div>
+<div class="call"><h3>PtLSV</h3><p><b>Pertidaksamaan Linear Satu Variabel</b>: kalimat terbuka dengan tanda &lt;, &gt;, ≤, atau ≥.</p><p class="eq">3x − 5 &lt; 10</p><p class="sm">Penyelesaian berupa banyak nilai: x &lt; 5.</p></div></div>
+<table><tr><th>Simbol</th><th>Dibaca</th><th>Contoh kata dalam soal</th></tr><tr><td>&lt;</td><td>kurang dari</td><td>kurang dari, di bawah</td></tr><tr><td>≤</td><td>kurang dari atau sama dengan</td><td>paling banyak, maksimal</td></tr><tr><td>&gt;</td><td>lebih dari</td><td>lebih dari, di atas</td></tr><tr><td>≥</td><td>lebih dari atau sama dengan</td><td>paling sedikit, minimal</td></tr></table>
+<h3>Aturan penting</h3>
+<div class="step">✅ Menambah atau mengurangi kedua ruas dengan bilangan yang sama: tanda tetap.</div>
+<div class="step">✅ Mengalikan atau membagi kedua ruas dengan bilangan <b>positif</b>: tanda tetap.</div>
+<div class="step">⚠️ Mengalikan atau membagi kedua ruas dengan bilangan <b>negatif</b>: tanda pertidaksamaan <b>dibalik</b>.</div>
+<h3>🧩 Menjodohkan: PLSV, PtLSV, atau bukan?</h3><p>Untuk setiap kalimat matematika, pilih jenisnya <b>dan</b> alasannya.</p><div id="mt"></div><button class="a" onclick="cmt()">Periksa Jawaban</button><div id="mtr"></div>
+<h3>🎬 Video: Cara Menyelesaikan PLSV</h3>
+<div class="vw"><iframe src="https://www.youtube.com/embed/ZzIaRdq5kws" title="Video cara menyelesaikan PLSV" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>
+<p class="sm">Video tidak tampil? <a href="https://youtu.be/ZzIaRdq5kws" target="_blank" rel="noopener">Buka di YouTube</a>.</p>
+<h3>🪜 Contoh: Penyelesaian PLSV Langkah demi Langkah</h3>
+<p>Pilih contoh, lalu tekan “Langkah berikutnya” untuk melihat penyelesaiannya satu per satu.</p>
+<div id="exb"></div><div class="eq" id="exq"></div><div id="exs"></div>
+<button class="a" id="exn" onclick="nx()">Langkah berikutnya ▶</button>
+<h3>✏️ Setelah menonton dan memahami contoh: tentukan penyelesaiannya</h3><p>Hitung nilai x, tulis jawabanmu, lalu tekan Periksa.</p><div id="sl"></div></div>
+</section>
+
+
+<section class="page" data-t="Konsep PtLSV">
+<div class="card"><h2>⚖️ Konsep PtLSV: Menyelesaikan Pertidaksamaan</h2>
+<p>Langkahnya mirip PLSV, tetapi jawabannya berupa <b>banyak nilai</b> yang disajikan sebagai himpunan penyelesaian. Ingat satu aturan khusus:</p>
+<div class="call">Jika kedua ruas dikali atau dibagi bilangan <b>negatif</b>, tanda ketidaksamaan <b>dibalik</b> (&lt; menjadi &gt;, ≤ menjadi ≥, dan sebaliknya).</div>
+<div id="pxb"></div><div class="eq" id="pxq"></div><div id="pxs"></div>
+<button class="a" id="pxn" onclick="px2()">Langkah berikutnya ▶</button></div>
+<div class="card"><h3>🔎 Mengapa tanda dibalik?</h3><p>Perhatikan 2 &lt; 5. Jika kedua ruas dikali −1, diperoleh −2 dan −5, dan ternyata −2 &gt; −5. Urutan bilangan menjadi terbalik, sehingga tanda ketidaksamaannya ikut dibalik.</p></div>
+<div class="card"><h3>✍️ Coba sendiri</h3><div id="pq"></div></div>
+</section>
+<section class="page" data-t="Garis Bilangan">
+<div class="card"><h2>📏 Garis Bilangan dan Himpunan Penyelesaian</h2>
+<p>Atur bentuk x ? a, lalu lihat himpunan penyelesaiannya. Lingkaran kosong berarti a tidak termasuk; lingkaran penuh berarti a termasuk.</p>
+<div class="g"><label>Tanda<select id="no" onchange="nl()"><option value="=">x = a (PLSV)</option><option value="&lt;">x &lt; a</option><option value="≤">x ≤ a</option><option value="&gt;" selected>x &gt; a</option><option value="≥">x ≥ a</option></select></label>
+<label>Nilai a (−6 sampai 10)<input type="number" id="na" value="3" min="-6" max="10" oninput="nl()"></label></div>
+<div class="fig"><svg id="nls" viewBox="0 0 720 120" width="720" role="img" aria-label="Garis bilangan"></svg></div>
+<div class="eq" id="nlt"></div>
+<div class="call"><b>🎯 Tantangan:</b> <span id="ch"></span><br><button class="a" onclick="chk()">Periksa Tantangan</button><button class="a s" onclick="nch()">Tantangan lain</button><div class="fb" id="chf"></div></div></div>
+</section>
+
+<section class="page" data-t="Latihan">
+<div class="card"><h2>✍️ Latihan Interaktif</h2><p>Pilih jawaban, umpan balik muncul langsung.</p><div class="stat"><div>Benar<b id="prc">0</b></div><div>Dijawab<b id="prd">0</b></div></div></div>
+<div id="pr1"></div>
+</section>
+
+<section class="page" data-t="Petualangan">
+<div class="card"><h2>🗺️ Petualangan Harta Karun</h2>
+<p>Ada dua peta petualangan, masing-masing 10 pos, dan <b>koinnya dihitung terpisah</b>. <b>Peta 1 (PLSV)</b> terbuka sejak awal. <b>Peta 2 (PtLSV)</b> terbuka setelah kamu menyelesaikan minimal 5 pos di Peta 1. Jawaban benar pada percobaan pertama memberi 10 koin, percobaan kedua 5 koin, selanjutnya 3 koin. Pada Peta 2, pilih tanda ketidaksamaan lalu isi angkanya. Peta kini 3D: geser untuk memutar, gulir untuk zoom, ketuk pos untuk membuka soalnya. Jawab benar, lalu petualang berjalan ke pos berikutnya hingga peti harta karun. Setelah peti harta karun terbuka, sertifikat langsung muncul dan siap dicetak.</p>
+<button class="s a mbtn" onclick="tgM()">🎵 Musik: Nyala</button><div id="ms"></div></div>
+</section>
+
+<section class="page" data-t="Kuis">
+<div class="card"><h2>🏁 Kuis Akhir</h2><p>Jawab 5 soal, lalu tekan “Hitung Skor”.</p></div>
+<div id="qz"></div>
+<div class="card"><button class="a" onclick="grade()">Hitung Skor</button><div id="qr"></div></div>
+</section>
+
+<section class="page" data-t="Refleksi">
+<div class="card"><h2>🪞 Refleksi Pembelajaran</h2>
+<div class="g"><label>Nama lengkap<input type="text" id="rn" placeholder="Untuk hasil belajar yang dicetak"></label><label>Kelas<input type="text" id="rk"></label><label>No. absen<input type="number" id="ra"></label></div>
+<label>1. Hal baru yang kupahami tentang PLSV dan PtLSV<textarea id="r1"></textarea></label>
+<label>2. Bagian yang masih sulit dan rencanaku memperbaikinya<textarea id="r2"></textarea></label>
+<label>3. Manfaat PLSV dan PtLSV dalam kehidupan sehari-hari<textarea id="r3"></textarea></label>
+<p><b>4. Tingkat keyakinanku:</b></p>
+<label class="choice"><input type="radio" name="cf" value="Sangat yakin">Sangat yakin</label><label class="choice"><input type="radio" name="cf" value="Cukup yakin">Cukup yakin</label><label class="choice"><input type="radio" name="cf" value="Perlu belajar lagi">Perlu belajar lagi</label>
+<button class="a" onclick="sv()">💾 Simpan</button><button class="a s" onclick="pt()">🖨️ Cetak Hasil Belajar</button><div class="fb" id="rf"></div></div>
+</section>
+</main>
+<div id="pr"></div>
+<div class="cm" id="cm" hidden><button class="cx" id="cx" type="button" aria-label="Tutup sertifikat">✕</button><div class="cmb"><div class="cid"><b>🪪 Identitas pada sertifikat</b><div class="g3"><input type="text" id="cn" placeholder="Nama lengkap"><input type="text" id="ck" placeholder="Kelas"><input type="number" id="ca" placeholder="No. absen"></div><div class="cmw" id="cmw"></div></div><div id="cmc"></div><div class="cma"><button class="a" id="cpr" type="button">🖨️ Cetak Sertifikat</button><button class="a s" id="cdl" type="button">💾 Unduh (jika cetak gagal)</button><button class="a s" id="ctt" type="button">Tutup</button></div></div></div>
+<div class="nb"><div class="wrap"><button class="a s" id="pv" onclick="go(cur-1)">◀ Sebelumnya</button><button class="a" id="nxb" onclick="go(cur+1)">Berikutnya ▶</button></div></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+const $=i=>document.getElementById(i),P=[...document.querySelectorAll('.page')];
+let cur=0;const S={n:'',k:'',a:'',mis:0,quiz:null,pc:0,pd:0,mt:null,ap:{}};
+const tn=$('tn');P.forEach((p,i)=>{const b=document.createElement('button');b.textContent=p.dataset.t;b.onclick=()=>go(i);tn.appendChild(b)});
+function fb(id,t,c){const e=$(id);e.className='fb show '+c;e.innerHTML=t}
+function go(n){n=Math.max(0,Math.min(n,P.length-1));if(n!=cur&&window.speechSynthesis)speechSynthesis.cancel();
+P[cur].classList.remove('on');cur=n;P[cur].classList.add('on');adv();$('prog').style.width=cur/(P.length-1)*100+'%';
+[...tn.children].forEach((b,i)=>b.classList.toggle('on',i===cur));$('pv').disabled=!cur;$('nxb').disabled=cur==P.length-1;scrollTo({top:0,behavior:'smooth'})}
+function start(){WEL=true;go(1)}
+
+/* Timbangan */
+let W={c:2,r:7};
+function sw(m){if(m=='rst')W={c:2,r:7};if(m=='sub'&&W.c>=2){W.c-=2;W.r-=2}if(m=='add')W.c+=3;sc()}
+function sc(){const d=5+W.c-W.r,ang=Math.max(-14,Math.min(14,d*2)),L=W.c?'x + '+W.c:'x';
+$('sc').innerHTML=`<svg viewBox="0 0 400 190" width="400"><polygon points="200,70 170,170 230,170" fill="#8aa4bd"/><g transform="rotate(${-ang} 200 70)"><line x1="50" y1="70" x2="350" y2="70" stroke="#2b6cb0" stroke-width="7" stroke-linecap="round"/>
+<line x1="50" y1="70" x2="25" y2="125" stroke="#8aa4bd" stroke-width="2"/><line x1="50" y1="70" x2="75" y2="125" stroke="#8aa4bd" stroke-width="2"/><rect x="15" y="125" width="70" height="26" rx="8" fill="#f4c400"/><text x="50" y="143" text-anchor="middle" font-weight="800" fill="#604d00" font-size="14">${L}</text>
+<line x1="350" y1="70" x2="325" y2="125" stroke="#8aa4bd" stroke-width="2"/><line x1="350" y1="70" x2="375" y2="125" stroke="#8aa4bd" stroke-width="2"/><rect x="315" y="125" width="70" height="26" rx="8" fill="#ef5350"/><text x="350" y="143" text-anchor="middle" font-weight="800" fill="#fff" font-size="14">${W.r}</text></g></svg>`;
+$('sq').textContent=d==0?L+' = '+W.r:'Kiri dan kanan tidak sama';
+if(d==0&&!W.c-0&&W.r==5)fb('sfb','Seimbang! Kedua sisi dikurangi 2 sehingga x = 5. Inilah penyelesaian PLSV x + 2 = 7.','ok');
+else if(d==0)fb('sfb','Timbangan seimbang: kedua sisi masih sama berat.','ok');
+else fb('sfb','Timbangan miring karena hanya satu sisi diubah. Agar tetap seimbang, perlakuan harus sama pada kedua ruas.','bad')}
+sc();
+
+/* Contoh */
+const EX=[{q:'2x + 3 = 11',s:['Kurangi kedua ruas dengan 3: 2x = 8','Bagi kedua ruas dengan 2: x = 4','Uji: 2(4) + 3 = 11 ✓. Jadi HP = {4}']},
+{q:'4x − 7 = x + 8',s:['Kurangi kedua ruas dengan x agar variabel berkumpul di kiri: 3x − 7 = 8','Tambah kedua ruas dengan 7: 3x = 15','Bagi kedua ruas dengan 3: x = 5','Uji: 4(5) − 7 = 13 dan 5 + 8 = 13 ✓. Jadi HP = {5}']},
+{q:'3(x + 2) = 2x + 10',s:['Kalikan 3 ke dalam kurung: 3x + 6 = 2x + 10','Kurangi kedua ruas dengan 2x: x + 6 = 10','Kurangi kedua ruas dengan 6: x = 4','Uji: 3(4 + 2) = 18 dan 2(4) + 10 = 18 ✓. Jadi HP = {4}']}];
+let ei=0,es=0;
+$('exb').innerHTML=EX.map((e,i)=>`<button class="a s" onclick="pe(${i})">Contoh ${i+1}</button>`).join('');
+function pe(i){ei=i;es=0;rx()}
+function rx(){$('exq').textContent=EX[ei].q;$('exs').innerHTML=EX[ei].s.slice(0,es).map((t,i)=>`<div class="step"><b>Langkah ${i+1}.</b> ${t}</div>`).join('');$('exn').disabled=es>=EX[ei].s.length}
+function nx(){es++;rx()}rx();
+
+/* Garis bilangan */
+function nl(){let a=Math.max(-6,Math.min(10,+$('na').value||0)),o=$('no').value,x=v=>40+(v+6)*40,s='';
+for(let v=-6;v<=10;v++)s+=`<line x1="${x(v)}" y1="52" x2="${x(v)}" y2="68" stroke="currentColor"/><text x="${x(v)}" y="90" text-anchor="middle" font-size="13" fill="currentColor">${v}</text>`;
+s=`<line x1="20" y1="60" x2="700" y2="60" stroke="currentColor" stroke-width="2"/>`+s;
+const C='#ef5350';
+if(o=='<'||o=='≤')s+=`<line x1="${x(a)}" y1="60" x2="26" y2="60" stroke="${C}" stroke-width="6"/><polygon points="20,60 32,53 32,67" fill="${C}"/>`;
+if(o=='>'||o=='≥')s+=`<line x1="${x(a)}" y1="60" x2="694" y2="60" stroke="${C}" stroke-width="6"/><polygon points="700,60 688,53 688,67" fill="${C}"/>`;
+const full=o=='='||o=='≤'||o=='≥';
+s+=`<circle cx="${x(a)}" cy="60" r="9" fill="${full?C:'var(--card)'}" stroke="${C}" stroke-width="4"/>`;
+$('nls').innerHTML=s;$('nlt').textContent=o=='='?`HP = {${a}}`:`HP = {x | x ${o} ${a}, x ∈ R}`}
+nl();
+
+/* Apersepsi: pertanyaan setelah video */
+const AP=[{q:'Apa yang terjadi pada timbangan jika kedua sisi diberi atau dikurangi beban yang sama?',o:['Tetap seimbang','Condong ke kiri','Condong ke kanan','Timbangan rusak'],a:0,e:'Perlakuan yang sama di kedua sisi menjaga keseimbangan. Inilah dasar menyelesaikan persamaan.'},{q:'Jika sisi kiri lebih berat daripada sisi kanan, tanda yang cocok adalah ….',o:['=','<','>'],a:2,e:'Kiri lebih berat berarti kiri > kanan. Tanda ketidaksamaan dipakai pada PtLSV.'}];
+$('ap').innerHTML=AP.map((q,i)=>`<div class="mc"><b>${i+1}. ${q.q}</b>${q.o.map((o,j)=>`<label class="choice"><input type="radio" name="ap${i}" onchange="apa(${i},${j})">${o}</label>`).join('')}<div class="fb" id="apf${i}"></div></div>`).join('');
+function apa(i,j){const ok=j==AP[i].a;S.ap[i]=ok;fb('apf'+i,(ok?'✅ Benar! ':'❌ Belum tepat. ')+AP[i].e,ok?'ok':'bad')}
+/* Konsep: menjodohkan */
+const JN=['PLSV','PtLSV','Bukan keduanya'],AL=['Tanda “=”, satu variabel, pangkat 1','Tanda ketidaksamaan, satu variabel, pangkat 1','Variabel berpangkat dua','Memuat dua variabel','Tidak memuat variabel'];
+const MT=[['2x + 5 = 11',0,0],['3x − 4 < 8',1,1],['x² − 9 = 0',2,2],['x + y = 7',2,3],['5 + 3 = 8',2,4]];
+const opt=L=>'<option value="">Pilih…</option>'+L.map((o,j)=>`<option value="${j}">${o}</option>`).join('');
+$('mt').innerHTML=MT.map((m,i)=>`<div class="mc"><div class="eq">${m[0].replace('<','&lt;')}</div><div class="g"><label>Jenis<select id="mj${i}">${opt(JN)}</select></label><label>Alasan<select id="ma${i}">${opt(AL)}</select></label></div><div class="fb" id="mtf${i}"></div></div>`).join('');
+function cmt(){let s=0,n=0;MT.forEach((m,i)=>{const j=$('mj'+i).value,a=$('ma'+i).value;if(j===''||a===''){fb('mtf'+i,'⚠️ Pilih jenis dan alasan.','hint');return}n++;const oj=+j==m[1],oa=+a==m[2];if(oj&&oa){s++;fb('mtf'+i,'✅ Tepat! '+AL[m[2]],'ok')}else if(oj)fb('mtf'+i,'Jenis benar, tetapi alasan belum tepat. Alasan yang benar: '+AL[m[2]],'hint');else fb('mtf'+i,'❌ Jenis yang benar: '+JN[m[1]]+'. Alasan: '+AL[m[2]],'bad')});
+if(n==MT.length){S.mt=s;$('mtr').innerHTML=`<div class="call"><b>Skor menjodohkan: ${s} / ${MT.length}</b> ${s==MT.length?'🎉 Sempurna!':'Baca lagi umpan balik di atas, lalu coba perbaiki.'}</div>`}else $('mtr').innerHTML='<div class="call">Lengkapi semua pilihan terlebih dahulu.</div>'}
+/* Soal penyelesaian PLSV setelah video */
+const SL=[{q:'x + 7 = 15',a:8,h:'Kurangi kedua ruas dengan 7.',e:'x = 15 − 7 = 8.'},{q:'4x − 3 = 21',a:6,h:'Tambah kedua ruas dengan 3, lalu bagi dengan 4.',e:'4x = 24, jadi x = 6.'},{q:'5x + 4 = 2x + 16',a:4,h:'Kumpulkan suku x di satu ruas dan angka di ruas lainnya.',e:'5x − 2x = 16 − 4, 3x = 12, jadi x = 4.'},{q:'3(x − 2) = 9',a:5,h:'Bagi kedua ruas dengan 3 terlebih dahulu, atau kalikan 3 ke dalam kurung.',e:'x − 2 = 3, jadi x = 5.'}];
+const SD={};
+$('sl').innerHTML=SL.map((q,i)=>`<div class="mc"><b>${i+1}. Tentukan penyelesaian ${q.q}</b><input type="number" id="sl${i}" placeholder="x = …"><button class="a" onclick="csl(${i})">Periksa</button><div class="fb" id="slf${i}"></div></div>`).join('');
+function csl(i){const v=$('sl'+i).value;if(v==='')return fb('slf'+i,'Isi jawabanmu dulu.','hint');const ok=+v==SL[i].a;SD[i]=ok;fb('slf'+i,ok?'✅ Benar! '+SL[i].e+' HP = {'+SL[i].a+'}':'❌ Belum tepat. Petunjuk: '+SL[i].h,ok?'ok':'bad')}
+/* PtLSV */
+const hh=t=>String(t).replace(/</g,'&lt;');
+const PX=[{q:'3x − 5 < 10',s:['Tambah kedua ruas dengan 5: 3x < 15','Bagi kedua ruas dengan 3 (positif, tanda tetap): x < 5','HP = {x | x < 5}. Uji x = 4: 3(4) − 5 = 7 < 10 ✓']},
+{q:'2x + 7 ≥ 1',s:['Kurangi kedua ruas dengan 7: 2x ≥ −6','Bagi kedua ruas dengan 2 (positif, tanda tetap): x ≥ −3','HP = {x | x ≥ −3}. Uji x = 0: 2(0) + 7 = 7 ≥ 1 ✓']},
+{q:'−2x + 1 ≥ 9',s:['Kurangi kedua ruas dengan 1: −2x ≥ 8','Bagi kedua ruas dengan −2 (negatif, tanda DIBALIK): x ≤ −4','HP = {x | x ≤ −4}. Uji x = −5: −2(−5) + 1 = 11 ≥ 9 ✓']},
+{q:'5(x − 1) ≤ 3x + 7',s:['Kalikan 5 ke dalam kurung: 5x − 5 ≤ 3x + 7','Kurangi kedua ruas dengan 3x: 2x − 5 ≤ 7','Tambah kedua ruas dengan 5: 2x ≤ 12','Bagi kedua ruas dengan 2: x ≤ 6','HP = {x | x ≤ 6}. Uji x = 6: 5(5) = 25 ≤ 25 ✓']}];
+let pi=0,ps=0;S.pt={};
+$('pxb').innerHTML=PX.map((e,i)=>`<button class="a s" onclick="pp(${i})">Contoh ${i+1}</button>`).join('');
+function pp(i){pi=i;ps=0;rp()}
+function rp(){$('pxq').textContent=PX[pi].q;$('pxs').innerHTML=PX[pi].s.slice(0,ps).map((t,i)=>`<div class="step"><b>Langkah ${i+1}.</b> ${hh(t)}</div>`).join('');$('pxn').disabled=ps>=PX[pi].s.length}
+function px2(){ps++;rp()}rp();
+const PQ=[{q:'Penyelesaian 4x − 3 > 9 adalah ….',o:['x > 3','x < 3','x > 6','x ≥ 3'],a:0,e:'4x > 12, dibagi 4 (positif): x > 3.'},
+{q:'Penyelesaian −3x < 12 adalah ….',o:['x < −4','x > −4','x < 4','x > 4'],a:1,e:'Dibagi −3 (negatif), tanda dibalik: x > −4.'},
+{q:'Lift maksimal memuat 300 kg. Budi (60 kg) membawa kotak masing-masing 20 kg. Banyak kotak k yang boleh dibawa memenuhi ….',o:['k ≤ 12','k ≥ 12','k < 12','k ≤ 18'],a:0,e:'60 + 20k ≤ 300, 20k ≤ 240, k ≤ 12 (kata “maksimal” berarti ≤).'}];
+$('pq').innerHTML=PQ.map((q,i)=>`<div class="mc"><b>${i+1}. ${q.q}</b>${q.o.map((o,j)=>`<label class="choice"><input type="radio" name="pq${i}" onchange="pxa(${i},${j})">${hh(o)}</label>`).join('')}<div class="fb" id="pqf${i}"></div></div>`).join('');
+function pxa(i,j){const ok=j==PQ[i].a;S.pt[i]=ok;fb('pqf'+i,(ok?'✅ Benar! ':'❌ Belum tepat. ')+PQ[i].e,ok?'ok':'bad')}
+/* Tantangan garis bilangan */
+const CH=[{t:'x ≥ 2',o:'≥',a:2},{t:'x < −3',o:'<',a:-3},{t:'x ≤ 5',o:'≤',a:5},{t:'x > 0',o:'>',a:0},{t:'x = 4',o:'=',a:4}];let ci=0;
+function nch(){ci=(ci+1)%CH.length;rch()}
+function rch(){$('ch').textContent='Atur tanda dan nilai a agar himpunan penyelesaiannya {x | '+CH[ci].t+'}';$('chf').className='fb'}
+function chk(){const ok=$('no').value==CH[ci].o&&+$('na').value==CH[ci].a;fb('chf',ok?'✅ Tepat! Garis bilangan dan notasimu sudah sesuai.':'❌ Belum sesuai. Periksa tanda, nilai a, dan jenis lingkaran (kosong untuk &lt; dan &gt;, penuh untuk ≤ dan ≥).',ok?'ok':'bad')}
+rch();
+/* Soal */
+const PR=[{q:'Penyelesaian 3x − 4 = 14 adalah ….',o:['x = 5','x = 6','x = 7','x = 10'],a:1,e:'3x = 18, jadi x = 6.'},
+{q:'Penyelesaian 5x + 2 = 3x + 10 adalah ….',o:['x = 2','x = 4','x = 6','x = 8'],a:1,e:'5x − 3x = 10 − 2, 2x = 8, x = 4.'},
+{q:'Penyelesaian 2x + 1 < 9 adalah ….',o:['x < 4','x > 4','x < 5','x ≤ 4'],a:0,e:'2x < 8, dibagi 2 (positif): x < 4.'},
+{q:'Penyelesaian −3x ≥ 12 adalah ….',o:['x ≥ −4','x ≤ −4','x ≥ 4','x ≤ 4'],a:1,e:'Dibagi −3 (negatif) sehingga tanda dibalik: x ≤ −4.'}];
+const QZ=[{q:'Manakah yang merupakan PLSV?',o:['x² − 4 = 0','4x − 7 = 9','x + y = 9','3x + 2 < 8'],a:1,e:'PLSV memakai tanda “=”, satu variabel berpangkat satu.'},
+{q:'Nilai x pada 7x − 3 = 2x + 12 adalah ….',o:['2','3','4','5'],a:1,e:'5x = 15, x = 3.'},
+{q:'Penyelesaian 5x − 2 ≤ 13 adalah ….',o:['x < 3','x ≤ 3','x ≥ 3','x > 3'],a:1,e:'5x ≤ 15, x ≤ 3.'},
+{q:'Penyelesaian −2x + 5 > 9 adalah ….',o:['x > −2','x < −2','x < 2','x > 2'],a:1,e:'−2x > 4, dibagi −2 tanda dibalik: x < −2.'},
+{q:'Rani punya Rp50.000 dan membeli 3 buku sama harga (b rupiah per buku). Sisa uang paling sedikit Rp14.000. Model yang benar ….',o:['b ≤ 12.000','b ≥ 12.000','b < 12.000','b ≤ 36.000'],a:0,e:'50.000 − 3b ≥ 14.000, 3b ≤ 36.000, b ≤ 12.000.'}];
+function build(id,L,live){$(id).innerHTML=L.map((q,i)=>`<div class="card"><b>${i+1}. ${q.q}</b>${q.o.map((o,j)=>`<label class="choice"><input type="radio" name="${id}${i}" value="${j}" ${live?`onchange="ans(${i},${j})"`:''}>${o}</label>`).join('')}<div class="fb" id="${id}f${i}"></div></div>`).join('')}
+const done={};
+function ans(i,j){const ok=j==PR[i].a;fb('pr1f'+i,(ok?'✅ Benar! ':'❌ Belum tepat. ')+PR[i].e,ok?'ok':'bad');
+if(!(i in done)){done[i]=ok;S.pd++;if(ok)S.pc++}else if(!done[i]&&ok){done[i]=true;S.pc++}
+$('prc').textContent=S.pc;$('prd').textContent=S.pd}
+build('pr1',PR,true);build('qz',QZ,false);
+function grade(){let s=0,n=0;QZ.forEach((q,i)=>{const r=document.querySelector(`input[name=qz${i}]:checked`);if(r)n++;const ok=r&&+r.value==q.a;if(ok)s++;fb('qzf'+i,(r?(ok?'✅ Benar. ':'❌ Kurang tepat. '):'⚠️ Belum dijawab. ')+q.e,ok?'ok':'bad')});
+S.quiz=s*20;$('qr').innerHTML=`<div class="call"><h3>Skor: ${S.quiz} / 100</h3><p>${s} dari 5 soal benar${n<5?' ('+(5-n)+' belum dijawab)':''}. ${S.quiz>=80?'Luar biasa, kamu menaklukkan PLSV dan PtLSV! 🎉':S.quiz>=60?'Bagus! Ulangi bagian yang masih keliru.':'Ayo pelajari lagi contoh dan garis bilangan, lalu coba kembali.'}</p></div>`}
+
+/* Suara */
+let VO=true,WEL=false,ZB;
+function say(t,onerr){if(!VO||!('speechSynthesis' in window))return;try{const u=new SpeechSynthesisUtterance(t);u.lang='id-ID';u.onstart=()=>{if(ZB)ZB.gain.value=.18};u.onend=()=>{if(ZB)ZB.gain.value=.55};u.onerror=ev=>{if(ZB)ZB.gain.value=.55;if(onerr)onerr(ev)};const v=speechSynthesis.getVoices().find(x=>/^id/i.test(x.lang));if(v)u.voice=v;u.rate=.98;u.pitch=1.1;speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){}}
+function fan(){if(!VO)return;try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();[523,659,784,1047,784,1047,1319].forEach((f,i)=>{const t=AC.currentTime+i*.14,o=AC.createOscillator(),g=AC.createGain();o.type='triangle';o.frequency.value=f;g.gain.setValueAtTime(.07,t);g.gain.exponentialRampToValueAtTime(.001,t+.3);o.connect(g);g.connect(AC.destination);o.start(t);o.stop(t+.31)})}catch(e){}}
+function welcome(n,f){say('Selamat datang di dunia petualangan harta karun PLSV dan PtLSV'+(n?', '+n:'')+'! Ayo, taklukkan setiap pos dan buka peti harta karun.',f)}
+function win(k){fan();setTimeout(()=>say('Selamat! Kamu telah berhasil menjelajahi '+(k==2?'kedua petualangan harta karun, Pulau Aljabar dan Gunung Ketidaksamaan.':'petualangan harta karun.')+' Silakan sekarang cetak sertifikat dengan mengklik gambar kotak harta karun.'),900)}
+function autoW(){if(WEL||cur!=0)return;WEL=true;welcome('',ev=>{if(ev&&ev.error=='not-allowed')WEL=false})}
+autoW();
+[300,1000,2500].forEach(t=>setTimeout(autoW,t));window.addEventListener('focus',autoW);
+['pointerdown','keydown','touchstart'].forEach(t=>document.addEventListener(t,e=>{if(e.target.closest&&e.target.closest('[onclick="start()"]'))return;autoW()},{passive:true}));
+/* Peta 3D (Three.js) */
+const T3={k:-1,az:.6,el:.8,dist:28,tgt:null,pins:[],open:false};
+function mkLab(){const c=document.createElement('canvas');c.width=c.height=128;const s=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(c)}));s.userData.c=c;s.scale.set(1.7,1.7,1);return s}
+function lab(s,t,bg,fg){const c=s.userData.c,x=c.getContext('2d');x.clearRect(0,0,128,128);x.fillStyle=bg;x.beginPath();x.arc(64,64,54,0,7);x.fill();x.lineWidth=8;x.strokeStyle='#fff';x.stroke();x.fillStyle=fg;x.font='bold 62px system-ui,sans-serif';x.textAlign='center';x.textBaseline='middle';x.fillText(t,64,68);s.material.map.needsUpdate=true}
+function P3(k,i){if(!k)return new THREE.Vector3(-9+i*2,.85,Math.sin(i*1.1)*3.2);const r=8.3-.6*i,a=i*.62+.3;return new THREE.Vector3(r*Math.cos(a),.62+(9.5-r)*1.37,r*Math.sin(a))}
+function init3(){if(T3.r)return;const r=new THREE.WebGLRenderer({antialias:true,alpha:true}),el=r.domElement;r.setPixelRatio(Math.min(devicePixelRatio,2));r.shadowMap.enabled=true;
+const sc=new THREE.Scene(),cam=new THREE.PerspectiveCamera(45,1,.1,300);sc.add(new THREE.HemisphereLight(0xffffff,0x3a5a70,.85));
+const dl=new THREE.DirectionalLight(0xffffff,.8);dl.position.set(10,20,8);dl.castShadow=true;const sh=dl.shadow.camera;sh.left=sh.bottom=-18;sh.right=sh.top=18;sh.far=60;dl.shadow.mapSize.set(1024,1024);sc.add(dl);
+Object.assign(T3,{r,sc,cam,tgt:new THREE.Vector3(),rc:new THREE.Raycaster(),w:0,h:0});
+el.style.cssText='width:100%;height:100%;display:block;touch-action:none;cursor:grab';
+let dr=null,mv=0;
+el.addEventListener('pointerdown',e=>{dr={x:e.clientX,y:e.clientY};mv=0;el.setPointerCapture(e.pointerId)});
+el.addEventListener('pointermove',e=>{if(!dr)return;const dx=e.clientX-dr.x,dy=e.clientY-dr.y;mv+=Math.abs(dx)+Math.abs(dy);T3.az-=dx*.007;T3.el=Math.max(.3,Math.min(1.4,T3.el+dy*.005));dr={x:e.clientX,y:e.clientY}});
+el.addEventListener('pointerup',e=>{dr=null;if(mv<6)pick3(e)});
+el.addEventListener('wheel',e=>{e.preventDefault();T3.dist=Math.max(14,Math.min(44,T3.dist+e.deltaY*.02))},{passive:false});
+requestAnimationFrame(loop3)}
+function pick3(e){const el=T3.r.domElement,b=el.getBoundingClientRect();T3.rc.setFromCamera({x:(e.clientX-b.left)/b.width*2-1,y:-((e.clientY-b.top)/b.height)*2+1},T3.cam);
+const hit=T3.rc.intersectObjects(T3.g.userData.hit,true)[0];if(!hit)return;let o=hit.object;while(o&&o.userData.i===undefined)o=o.parent;if(!o)return;o.userData.i==='chest'?claim():op(o.userData.i)}
+function build3(k){const sc=T3.sc;if(T3.g)sc.remove(T3.g);const g=new THREE.Group(),hit=[];g.userData.hit=hit;T3.g=g;T3.k=k;T3.pins=[];sc.add(g);
+let s=7;const rnd=()=>(s=s*16807%2147483647)/2147483647;
+const M=(geo,c,x,y,z,p)=>{const o=new THREE.Mesh(geo,new THREE.MeshLambertMaterial({color:c,flatShading:true}));o.position.set(x,y,z);o.castShadow=o.receiveShadow=true;(p||g).add(o);return o};
+const sea=M(new THREE.PlaneGeometry(160,160),k?0x5aa5c8:0x2a8fc4,0,-.4,0);sea.rotation.x=-Math.PI/2;sea.castShadow=false;
+const tree=(x,y,z,c)=>{M(new THREE.CylinderGeometry(.12,.16,.7,6),0x7a4a21,x,y+.35,z);M(new THREE.ConeGeometry(.7,1.5,7),c,x,y+1.4,z);M(new THREE.ConeGeometry(.5,1.1,7),c,x,y+2.1,z)};
+let cp;
+if(!k){M(new THREE.CylinderGeometry(15.4,16.2,1,40),0xf0d78c,0,0,0);M(new THREE.CylinderGeometry(13.4,14.6,1.2,40),0x7fcf5f,0,.05,0);
+for(let n=0;n<40;n++){const z=(rnd()<.5?-1:1)*(5.2+rnd()*6),x=-12+rnd()*24;if(x*x+z*z<150)tree(x,.65,z,rnd()<.5?0x2e9e4f:0x3fb55f)}
+M(new THREE.ConeGeometry(2.2,3,6),0x8a8f98,-6,2,-9);M(new THREE.ConeGeometry(1.6,2.2,6),0x9aa0a8,-3.5,1.6,-9.8);cp=new THREE.Vector3(11.6,.65,-1.5)}
+else{M(new THREE.CylinderGeometry(12.5,13.2,1,40),0xeef6fb,0,0,0);M(new THREE.CylinderGeometry(2.2,9.5,10,28),0x8c98aa,0,5.5,0);M(new THREE.CylinderGeometry(2.3,3.7,1.5,28),0xffffff,0,9.76,0);
+for(let n=0;n<22;n++){const a=rnd()*6.283,r=10.2+rnd()*1.8;tree(r*Math.cos(a),.5,r*Math.sin(a),0x3f8f6a)}cp=new THREE.Vector3(0,10.5,0)}
+const pts=[];for(let i=0;i<=9;i+=.25)pts.push(P3(k,i).add(new THREE.Vector3(0,.12,0)));pts.push(cp.clone().add(new THREE.Vector3(0,.1,0)));
+M(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts),150,.15,6),0xffe39a,0,0,0).castShadow=false;
+for(let i=0;i<10;i++){const p=P3(k,i),m=M(new THREE.CylinderGeometry(.85,1,.35,20),0x7f8fa0,p.x,p.y,p.z);m.userData.i=i;m.userData.y=p.y;const l=mkLab();l.position.set(p.x,p.y+1.25,p.z);l.userData.i=i;g.add(l);hit.push(m,l);T3.pins.push({m,l})}
+const ch=new THREE.Group();ch.position.copy(cp);ch.userData.i='chest';g.add(ch);hit.push(ch);
+M(new THREE.BoxGeometry(1.8,1,1.2),0x8d5524,0,.5,0,ch);M(new THREE.BoxGeometry(1.86,.2,1.26),0xf4c400,0,.75,0,ch);
+const piv=new THREE.Group();piv.position.set(0,1,-.6);ch.add(piv);M(new THREE.BoxGeometry(1.8,.35,1.2),0xa5672b,0,.18,.6,piv);M(new THREE.BoxGeometry(.25,.4,1.25),0xf4c400,0,.18,.6,piv);
+const gold=M(new THREE.SphereGeometry(.7,12,8),0xffd54f,0,1,0,ch);gold.scale.set(1.2,.35,.8);const gl=new THREE.PointLight(0xffd54f,0,9);gl.position.set(0,2,0);ch.add(gl);
+const cl=mkLab();cl.position.set(0,2.6,0);cl.userData.i='chest';ch.add(cl);lab(cl,'🏆','#f4c400','#fff');hit.push(cl);
+const kc=document.createElement('canvas');kc.width=320;kc.height=96;const kx=kc.getContext('2d');kx.fillStyle='#e53935';kx.beginPath();kx.rect(4,4,312,88);kx.fill();kx.lineWidth=6;kx.strokeStyle='#fff';kx.stroke();kx.fillStyle='#fff';kx.font='bold 40px system-ui,sans-serif';kx.textAlign='center';kx.textBaseline='middle';kx.fillText('KLIK PETI ▼',160,52);
+const kb=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(kc)}));kb.scale.set(4.4,1.3,1);kb.position.set(0,4,0);kb.userData.i='chest';kb.visible=false;ch.add(kb);hit.push(kb);
+const pl=new THREE.Group();M(new THREE.CylinderGeometry(.25,.4,.8,10),0xff7043,0,.4,0,pl);M(new THREE.SphereGeometry(.3,12,10),0xffd9b3,0,1.05,0,pl);M(new THREE.ConeGeometry(.32,.4,10),0x1565c0,0,1.45,0,pl);g.add(pl);pl.position.copy(P3(k,0));
+const cls=[];for(let n=0;n<5;n++){const c=new THREE.Group();for(let j=0;j<3;j++){const o=new THREE.Mesh(new THREE.SphereGeometry(1.3+j*.3,10,8),new THREE.MeshLambertMaterial({color:0xffffff,transparent:true,opacity:.85}));o.position.set(j*1.5,0,j%2);c.add(o)}c.position.set(-30+n*14,15+n%2*3,-14+n*6);g.add(c);cls.push(c)}
+Object.assign(T3,{ch,piv,gold,gl,pl,cls,cp,kb,pu:Math.min(S[MP[k].mk],9)});T3.az=.6;T3.el=k?.75:.85;T3.dist=k?32:30;T3.tgt.set(0,k?5:0,0)}
+function upd3(){const m=MP[CM],mis=S[m.mk],V=ST[CM].V;T3.open=mis==10;T3.pins.forEach((p,i)=>{const d=i<mis,c=i==mis;p.m.material.color.set(d?0x25b96d:c?0xffb72d:0x7f8fa0);p.m.scale.set(i==V?1.3:1,1,i==V?1.3:1);lab(p.l,d?'✓':i>mis?'🔒':i+1,d?'#25b96d':c?'#ffb72d':'#7f8fa0','#fff')});
+T3.gold.visible=T3.open;T3.kb.visible=T3.open;T3.gl.intensity=T3.open?1.6:0}
+function mount3(){const h=$('m3h');if(!h||!window.THREE)return;init3();if(T3.k!==CM)build3(CM);h.appendChild(T3.r.domElement);upd3()}
+function loop3(t){requestAnimationFrame(loop3);const R=T3.r,el=R.domElement;if(!el.isConnected||!el.clientWidth||!T3.g)return;
+const w=el.clientWidth,h=el.clientHeight;if(w!=T3.w||h!=T3.h){T3.w=w;T3.h=h;R.setSize(w,h,false);T3.cam.aspect=w/h;T3.cam.updateProjectionMatrix()}
+const mis=S[MP[CM].mk];T3.pins.forEach((p,i)=>{const b=i==mis?.18*Math.sin(t/260)+.18:0;p.m.position.y=p.m.userData.y+b;p.l.position.y=p.m.userData.y+1.25+b});
+const tg=Math.min(mis,9),df=tg-T3.pu;T3.pu+=Math.sign(df)*Math.min(Math.abs(df),.02);const tp=P3(CM,T3.pu);tp.y+=.2+(Math.abs(df)>.01?Math.abs(Math.sin(t/110))*.35:Math.abs(Math.sin(t/400))*.08);T3.pl.position.copy(tp);
+T3.kb.position.y=4+.25*Math.sin(t/220);T3.piv.rotation.x+=((T3.open?-1.9:0)-T3.piv.rotation.x)*.08;T3.cls.forEach(c=>{c.position.x+=.01;if(c.position.x>34)c.position.x=-34});
+const c=T3.cam,e=T3.el,d=T3.dist;c.position.set(T3.tgt.x+d*Math.cos(e)*Math.sin(T3.az),T3.tgt.y+d*Math.sin(e),T3.tgt.z+d*Math.cos(e)*Math.cos(T3.az));c.lookAt(T3.tgt);R.render(T3.sc,c)}
+
+/* Petualangan: dua peta */
+const M1=[
+{n:'Gerbang Hutan',t:'Gerbang bertuliskan x + 9 = 20. Berapakah x?',a:11,h:'Kurangi kedua ruas dengan 9.',e:'x = 20 − 9 = 11.'},
+{n:'Jembatan Tali',t:'Tiga papan sama panjang disambung menjadi 27 dm, ditulis 3x = 27. Berapa panjang tiap papan (x)?',a:9,h:'Bagi kedua ruas dengan 3.',e:'x = 27 : 3 = 9.'},
+{n:'Sungai Koin',t:'Peti kecil di tepi sungai berisi 2x + 5 = 21 koin. Tentukan x.',a:8,h:'Kurangi kedua ruas dengan 5, lalu bagi 2.',e:'2x = 16, jadi x = 8.'},
+{n:'Gua Batu',t:'Pintu gua terbuka jika 4x − 6 = 22. Tentukan x.',a:7,h:'Tambah kedua ruas dengan 6, lalu bagi 4.',e:'4x = 28, jadi x = 7.'},
+{n:'Pasar Pulau',t:'Empat kendi sama harga ditambah ongkos kirim Rp6.000 dibayar Rp30.000. Berapa ribu rupiah harga satu kendi?',a:6,h:'Model: 4x + 6 = 30 (dalam ribuan rupiah).',e:'4x = 24, jadi x = 6, yaitu Rp6.000.'},
+{n:'Hutan Bambu',t:'Peta menunjukkan 5x + 3 = 2x + 18. Tentukan x.',a:5,h:'Kurangi kedua ruas dengan 2x terlebih dahulu.',e:'3x + 3 = 18, 3x = 15, jadi x = 5.'},
+{n:'Tebing Angin',t:'Tali pendaki memenuhi 9x − 8 = 5x + 8. Tentukan x.',a:4,h:'Kumpulkan suku x di satu ruas dan angka di ruas lainnya.',e:'4x = 16, jadi x = 4.'},
+{n:'Lembah Kurung',t:'Prasasti tertulis 3(x − 2) = 2x + 5. Tentukan x.',a:11,h:'Kalikan 3 ke dalam kurung lebih dulu.',e:'3x − 6 = 2x + 5, jadi x = 11.'},
+{n:'Kapal Karam (HOTS)',t:'Jumlah umur Kapten dan kelasi sekarang 44 tahun. Dua tahun lalu umur Kapten tepat 3 kali umur kelasi. Berapa umur kelasi sekarang?',a:12,h:'Misalkan umur kelasi x, umur Kapten 44 − x. Dua tahun lalu: 44 − x − 2 = 3(x − 2).',e:'42 − x = 3x − 6, 4x = 48, x = 12. Kapten 32 tahun; dua tahun lalu 30 dan 10 ✓.'},
+{n:'Peti Harta Karun (HOTS)',t:'Kode peti adalah 2x + 1, dengan x memenuhi 3(x + 4) − 2(x − 1) = 20. Berapa kode peti?',a:13,h:'Sederhanakan ruas kiri lebih dulu, cari x, lalu hitung 2x + 1.',e:'x + 14 = 20, x = 6, kode = 2(6) + 1 = 13.'}];
+const M2=[
+{n:'Kaki Gunung',t:'Pendaki harus membawa beban x + 6 < 15. Tentukan penyelesaiannya.',o:'<',a:9,h:'Kurangi kedua ruas dengan 6.',e:'x < 15 − 6, jadi x < 9.'},
+{n:'Jembatan Salju',t:'Jembatan hanya aman jika 3x ≥ 21. Tentukan penyelesaiannya.',o:'≥',a:7,h:'Bagi kedua ruas dengan 3 (positif, tanda tetap).',e:'x ≥ 21 : 3, jadi x ≥ 7.'},
+{n:'Gua Es',t:'Pintu gua es terbuka jika 2x − 5 > 11. Tentukan penyelesaiannya.',o:'>',a:8,h:'Tambah kedua ruas dengan 5, lalu bagi 2.',e:'2x > 16, jadi x > 8.'},
+{n:'Lereng Licin',t:'Tali pengaman memenuhi −4x ≤ 20. Tentukan penyelesaiannya.',o:'≥',a:-5,h:'Dibagi bilangan negatif, tanda ketidaksamaan dibalik.',e:'Dibagi −4 (negatif), tanda dibalik: x ≥ −5.'},
+{n:'Pondok Pendaki',t:'Kereta gantung memuat maksimal 500 kg. Seorang pendaki 70 kg membawa tas masing-masing 10 kg. Jika t adalah banyak tas, tentukan batas t.',o:'≤',a:43,h:'Model: 70 + 10t ≤ 500. Kata “maksimal” berarti ≤.',e:'10t ≤ 430, jadi t ≤ 43.'},
+{n:'Jalur Angin',t:'Jalur pendakian dilambangkan 6x − 4 < 2x + 12. Tentukan penyelesaiannya.',o:'<',a:4,h:'Kurangi kedua ruas dengan 2x terlebih dahulu.',e:'4x − 4 < 12, 4x < 16, jadi x < 4.'},
+{n:'Tebing Kurung',t:'Tebing memenuhi 2(x + 3) ≥ x + 10. Tentukan penyelesaiannya.',o:'≥',a:4,h:'Kalikan 2 ke dalam kurung lebih dulu.',e:'2x + 6 ≥ x + 10, jadi x ≥ 4.'},
+{n:'Puncak Bulat',t:'Tentukan bilangan bulat terbesar x yang memenuhi 3x − 2 < 13.',a:4,h:'Selesaikan dulu pertidaksamaannya, lalu pilih bilangan bulat terbesar yang masih memenuhi.',e:'3x < 15, x < 5. Bilangan bulat terbesar yang kurang dari 5 adalah 4.'},
+{n:'Kamp Salju (HOTS)',t:'Seorang siswa menyelesaikan 5 − 2x > 9 dan menulis x > −2. Tuliskan penyelesaian yang benar.',o:'<',a:-2,h:'Pindahkan 5 ke ruas kanan, lalu bagi dengan −2. Apa yang terjadi pada tanda?',e:'−2x > 4, dibagi −2 tanda dibalik: x < −2. Siswa lupa membalik tanda.'},
+{n:'Puncak Harta Karun (HOTS)',t:'Kode peti adalah 2x + 1, dengan x bilangan bulat terkecil yang memenuhi 3(x − 2) + 4 ≥ x + 8. Berapa kode peti?',a:11,h:'Sederhanakan, cari penyelesaiannya, ambil bilangan bulat terkecil, lalu hitung 2x + 1.',e:'3x − 2 ≥ x + 8, 2x ≥ 10, x ≥ 5. x terkecil = 5, kode = 2(5) + 1 = 11.'}];
+const SY=['<','≤','>','≥'];
+const MP=[{name:'Pulau Aljabar (PLSV)',ico:'🏝️',mk:'mis',ck:'coin',Q:M1,f:['🧰','💰'],dc:['🌴','⛰️','🌴','🌴','⛵']},{name:'Gunung Ketidaksamaan (PtLSV)',ico:'🏔️',mk:'mis2',ck:'coin2',Q:M2,f:['🚩','👑'],dc:['🌲','🏔️','🌲','🌲','❄️']}];
+const ST=[0,1].map(()=>({V:0,MSG:'',AT:Array(10).fill(0)}));let CM=0,TM='';S.coin=0;S.mis2=0;S.coin2=0;
+let QV=false,QT=0;
+function bk(){QV=false;QT++;dm();$('ms').scrollIntoView({behavior:'smooth'})}
+function dm(){dm0();mount3()}
+function dm0(){
+const m=MP[CM],st=ST[CM],Q=m.Q,mis=S[m.mk],coin=S[m.ck],V=st.V;
+const px=i=>8+i*8.4,py=i=>52+Math.sin(i*1.25+CM*1.6)*27,rd=mis==10;
+const P=Q.map((q,i)=>[px(i)*10,py(i)*6.2]);
+let d='M'+P[0][0]+' '+P[0][1];for(let i=1;i<9;i++){d+=' Q'+P[i][0]+' '+P[i][1]+' '+(P[i][0]+P[i+1][0])/2+' '+(P[i][1]+P[i+1][1])/2}d+=' L'+P[9][0]+' '+P[9][1]+' L940 '+P[9][1];
+const DP=[[18,13],[52,9],[88,15],[30,93],[66,94]];
+const decor=DP.map((c,i)=>`<div class="bb dc" style="left:${c[0]}%;top:${c[1]}%">${m.dc[i]}</div>`).join('');
+const pins=Q.map((q,i)=>`<div class="sh" style="left:${px(i)}%;top:${py(i)}%"></div><div class="bb" style="left:${px(i)}%;top:${py(i)}%"><button class="pin ${i<mis?'dn':i==mis?'cur':'lk'} ${i==V?'sel':''}" onclick="op(${i})" aria-label="Pos ${i+1}">${i<mis?'✓':i>mis?'🔒':i+1}</button><small>${i==0?'MULAI':'POS '+(i+1)}</small></div>`).join('');
+const chest=`<div class="sh" style="left:94%;top:${py(9)}%;width:64px"></div><div class="bb" style="left:94%;top:${py(9)}%"><div class="chs ${rd?'rd':''}" onclick="claim()" role="button" aria-label="Peti harta karun">${m.f[rd?1:0]}</div><small>${rd?'KLIK: SERTIFIKAT':'HARTA KARUN'}</small></div>`;
+const map=`<div class="mw"><div class="top"><span>🧭 ${m.name.toUpperCase()}</span><span class="chip"><b>${mis}/10</b> POS</span></div><div class="mp3"><svg class="rt" viewBox="0 0 1000 620" preserveAspectRatio="none" aria-hidden="true"><path d="${d}" fill="none" stroke="rgba(8,43,48,.7)" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/><path d="${d}" fill="none" stroke="#ffe39a" stroke-width="8" stroke-linecap="round" stroke-dasharray="16 12" vector-effect="non-scaling-stroke"/></svg>${decor}${pins}${chest}</div><div class="lg"><span>🟢 Selesai</span><span>🟡 Sedang dijalani</span><span>🔒 Belum terbuka</span></div></div>`;
+const map3=`<div class="mw m3" style="background:${CM?'linear-gradient(180deg,#26325e,#8aa7d6)':'linear-gradient(180deg,#6fc0ee,#d4f1ff)'}"><div class="top"><span style="color:#fff">🧭 ${m.name.toUpperCase()}</span><span class="chip"><b>${mis}/10</b> POS</span></div><div id="m3h" style="position:absolute;inset:0"></div><div class="lg"><span>🟢 Selesai</span><span>🟡 Sedang dijalani</span><span>🔒 Terkunci</span><span>👆 Geser untuk memutar</span></div></div>`;
+const q=Q[V],dn=V<mis,rank=coin>=90?'Penjelajah Emas 🥇':coin>=70?'Penjelajah Perak 🥈':'Penjelajah Perunggu 🥉';
+const tabs=`<div style="margin-bottom:10px"><button class="a ${CM?'s':''}" onclick="sm(0)">🏝️ Peta 1 · PLSV</button><button class="a ${CM?'':'s'}" onclick="sm(1)">${S.mis>=5?'🏔️':'🔒'} Peta 2 · PtLSV</button></div>`;
+const inp=q.o===undefined?`<input type="number" id="mi" placeholder="Jawabanmu (angka)">`:`<div class="g"><label>Tanda<select id="mo"><option value="">Pilih…</option>${SY.map((o,j)=>`<option value="${j}">x ${hh(o)} …</option>`).join('')}</select></label><label>Angka<input type="number" id="mi" placeholder="Angka"></label></div>`;
+const both=S.mis==10&&S.mis2==10?`<div class="card" style="text-align:center;background:var(--warn)"><div style="font-size:3rem">🏆</div><h3>Kedua peta berhasil ditaklukkan!</h3><p>Total koin gabungan: <b>${S.coin+S.coin2} / 200</b></p><button class="a" onclick="cert(2)">🎓 Cetak Sertifikat Juara</button></div>`:'';
+$('ms').innerHTML=`${tabs}${TM?`<div class="fb show hint">${TM}</div>`:''}<div class="stat"><div>Koin peta ini<b>🪙 ${coin}</b></div><div>Pos selesai<b>${mis} / 10</b></div><div>Pos dilihat<b>${V+1}</b></div></div><div class="bar" style="margin:12px 0"><div style="width:${mis*10}%"></div></div>${QV?'':window.THREE?map3:map}${st.MSG?`<div class="call">${st.MSG}</div>`:''}
+${QV?`<button class="a s" onclick="bk()">← Kembali ke Peta</button>`:`<div class="call">${mis<10?`👆 Ketuk <b>Pos ${mis+1}</b> pada peta untuk membuka soalnya.`:'🏆 Semua pos selesai! Ketuk peti harta karun untuk sertifikat.'}</div>`}<div class="mc ${dn?'done':''}" ${QV?'':'hidden'}><span class="badge">Pos ${V+1} · ${q.n}</span><p><b>${q.t}</b></p>${dn?`<div class="fb show ok">✅ Pos selesai. ${q.e}</div>`:`${inp}<button class="a" onclick="cm()">Periksa</button><button class="a s" onclick="hn()">💡 Petunjuk</button><div class="fb" id="mf"></div>`}</div>
+${mis==10&&!QV?`<div class="card" style="text-align:center;background:var(--warn)"><div style="font-size:3rem">🎖️</div><h3>Peta selesai!</h3><p>Koin peta ini: <b>${coin} / 100</b><br>Gelarmu: <b>${rank}</b></p><button class="a" onclick="cert(${CM})">🎓 Cetak Sertifikat</button></div>`:''}${QV?'':both}`}
+function sm(k){QV=false;QT++;if(k==1&&S.mis<5){TM='🔒 Peta 2 terbuka setelah kamu menyelesaikan minimal 5 pos di Peta 1 (sekarang '+S.mis+' pos).'}else{CM=k;TM=''}dm()}
+function op(i){const st=ST[CM];if(i>S[MP[CM].mk])st.MSG='🔒 Pos '+(i+1)+' belum terbuka. Selesaikan pos sebelumnya terlebih dahulu.';else{st.V=i;st.MSG='';QV=true;QT++}dm();if(QV)$('ms').scrollIntoView({behavior:'smooth'})}
+function hn(){fb('mf','💡 '+MP[CM].Q[ST[CM].V].h,'hint')}
+function cm(){const m=MP[CM],st=ST[CM],q=m.Q[st.V],v=$('mi').value;let to=true;
+if(v==='')return fb('mf','Isi jawabanmu dulu.','hint');
+if(q.o!==undefined){const o=$('mo').value;if(o==='')return fb('mf','Pilih tandanya dulu.','hint');to=SY[o]==q.o}
+const ta=+v==q.a;
+if(to&&ta){const c=st.AT[st.V]==0?10:st.AT[st.V]==1?5:3;S[m.ck]+=c;st.MSG='🎉 Pos '+(st.V+1)+' selesai! +'+c+' koin. '+q.e;S[m.mk]=st.V+1;if(S[m.mk]==10){st.MSG+=' 🏆 Peti harta karun terbuka! Klik gambar peti harta karun untuk mencetak sertifikat.';const kk=CM;setTimeout(()=>win(S.mis==10&&S.mis2==10?2:kk),3600)}if(CM==0&&S.mis==5)st.MSG+=' 🎊 Peta 2 “Gunung Ketidaksamaan” (PtLSV) sudah terbuka!';TM='';dm();const tk=++QT,cmk=CM;setTimeout(()=>{if(tk==QT&&QV&&CM==cmk){QV=false;st.V=Math.min(S[m.mk],9);dm();$('ms').scrollIntoView({behavior:'smooth'})}},1900)}
+else{st.AT[st.V]++;fb('mf','❌ '+(q.o!==undefined&&ta?'Angkanya sudah tepat, periksa tandanya (ingat aturan bilangan negatif).':q.o!==undefined&&to?'Tandanya sudah tepat, periksa angkanya.':'Belum tepat.')+' Coba lagi! (percobaan ke-'+st.AT[st.V]+')','bad')}}
+function claim(){const m=MP[CM];if(S[m.mk]<10){ST[CM].MSG='🔒 Peti harta karun masih terkunci. Selesaikan semua 10 pos terlebih dahulu.';dm();return}cert(CM)}
+function certH(k){const nm=S.n||'________________';const I=k==2?{t:'Juara Petualang Matematika',s:'Menaklukkan Pulau Aljabar (PLSV) dan Gunung Ketidaksamaan (PtLSV)',c:S.coin+S.coin2,x:200}:{t:'Penakluk '+(k?'PtLSV':'PLSV'),s:'Petualangan Harta Karun: '+MP[k].name,c:S[MP[k].ck],x:100};
+const r=I.c>=I.x*.9?'Penjelajah Emas 🥇':I.c>=I.x*.7?'Penjelajah Perak 🥈':'Penjelajah Perunggu 🥉';
+return `<div class="cert"><div class="md">🏆</div><p><b>SERTIFIKAT PENGHARGAAN</b></p><h1>${esc(I.t)}</h1><p>${esc(I.s)}</p><p>Diberikan kepada</p><div class="nm">${esc(nm)}</div><p>Kelas ${esc(S.k)} · No. absen ${esc(S.a)}</p><p>yang telah menyelesaikan semua pos dan membuka peti harta karun dengan perolehan <b>${I.c} dari ${I.x} koin</b>.</p><p><b>Gelar: ${r}</b></p><p style="margin-top:26px;font-size:14px">Media Pembelajaran Interaktif Matematika: PLSV dan PtLSV · ${new Date().toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'})}</p></div>`}
+let CK=0;function cert(k){CK=k;$('cn').value=S.n||'';$('ck').value=S.k||'';$('ca').value=S.a||'';$('cmw').textContent='';$('cmc').innerHTML=certH(k);$('cm').hidden=false;$('cm').scrollTop=0;fan()}
+function tutup(){$('cm').hidden=true;try{speechSynthesis.cancel()}catch(e){}}
+const ID=[['cn','rn','n'],['ck','rk','k'],['ca','ra','a']];
+function sy(w){ID.forEach(([c,r,f])=>{S[f]=$(w=='c'?c:r).value.trim();$(w=='c'?r:c).value=S[f]})}
+function idn(){sy('c');$('cmc').innerHTML=certH(CK)}
+['cn','ck','ca'].forEach(i=>$(i).addEventListener('input',idn));
+['rn','rk','ra'].forEach(i=>$(i).addEventListener('input',()=>sy('r')));
+$('cpr').addEventListener('click',()=>doPrint());$('cdl').addEventListener('click',()=>{if(!S.n){$('cmw').textContent='⚠️ Isi nama lengkap dulu.';return}unduh()});$('cx').addEventListener('click',tutup);$('ctt').addEventListener('click',tutup);
+$('cm').addEventListener('click',e=>{if(e.target===$('cm'))tutup()});
+document.addEventListener('keydown',e=>{if(e.key=='Escape'&&!$('cm').hidden)tutup()});
+function certDoc(k){return `<!DOCTYPE html><html lang="id"><head><meta charset="UTF-8"><title>Sertifikat</title><style>@page{margin:10mm}body{font-family:Arial,sans-serif;margin:0;padding:20px;background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}.cert{border:8px double #d4af37;border-radius:24px;padding:40px 30px;text-align:center;max-width:760px;margin:20px auto;background:#fffbea;color:#5a4700}.cert h1{font-size:38px;color:#7a5a00;margin:8px 0}.cert .nm{font-size:32px;font-weight:700;border-bottom:2px solid #c9a545;display:inline-block;padding:0 24px 8px;margin:14px 0}.cert .md{font-size:56px}.cert p{font-size:17px;line-height:1.6;color:#5a4700}</style></head><body>${certH(k)}</body></html>`}
+function doPrint(){if(!S.n||!S.k||!S.a){$('cmw').textContent='⚠️ Lengkapi nama, kelas, dan nomor absen dulu agar tercetak di sertifikat.';$(!S.n?'cn':!S.k?'ck':'ca').focus();return}$('cmw').textContent='';const h=certDoc(CK);
+try{const w=window.open('','_blank');if(w){w.document.open();w.document.write(h);w.document.close();setTimeout(()=>{try{w.focus();w.print()}catch(e){}},500);return}}catch(e){}
+try{let f=$('pf');if(f)f.remove();f=document.createElement('iframe');f.id='pf';f.style.cssText='position:fixed;right:0;bottom:0;width:0;height:0;border:0';document.body.appendChild(f);const d=f.contentWindow.document;d.open();d.write(h);d.close();setTimeout(()=>{try{f.contentWindow.focus();f.contentWindow.print()}catch(e){unduh()}},500)}catch(e){unduh()}}
+function unduh(){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([certDoc(CK)],{type:'text/html'}));a.download='Sertifikat_'+(S.n||'Petualang').replace(/\s+/g,'_')+'.html';document.body.appendChild(a);a.click();a.remove()}
+dm();
+
+/* Refleksi & cetak */
+const esc=v=>String(v||'Belum diisi').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function rd(){return {a:$('r1').value.trim(),b:$('r2').value.trim(),c:$('r3').value.trim(),d:(document.querySelector('input[name=cf]:checked')||{}).value||''}}
+function sv(){try{localStorage.setItem('mpiPLSV',JSON.stringify(rd()));fb('rf','Refleksi tersimpan di browser ini. Cetak agar menjadi bukti belajar.','ok')}catch(e){fb('rf','Penyimpanan tidak tersedia. Silakan langsung cetak.','bad')}}
+try{const d=JSON.parse(localStorage.getItem('mpiPLSV')||'null');if(d){$('r1').value=d.a;$('r2').value=d.b;$('r3').value=d.c;if(d.d){const e=document.querySelector(`input[name=cf][value="${d.d}"]`);if(e)e.checked=true}}}catch(e){}
+function pt(){const d=rd();$('pr').innerHTML=`<h1>Hasil Belajar: PLSV dan PtLSV</h1><p>Petualangan Matematika: Misi Menaklukkan PLSV dan PtLSV</p>
+<section><b>Identitas</b><p>Nama: ${esc(S.n)}<br>Kelas: ${esc(S.k)}<br>No. absen: ${esc(S.a)}</p></section>
+<section><b>Capaian</b><p>Latihan benar: ${S.pc} dari ${S.pd} dijawab<br>Pertanyaan apersepsi benar: ${Object.values(S.ap).filter(Boolean).length} dari 2<br>Menjodohkan konsep: ${S.mt==null?'Belum dikerjakan':S.mt+' dari 5'}<br>Soal penyelesaian PLSV benar: ${Object.values(SD).filter(Boolean).length} dari 4<br>Soal PtLSV benar: ${Object.values(S.pt).filter(Boolean).length} dari 3<br>Petualangan PLSV: ${S.mis} dari 10 pos, ${S.coin} koin<br>Petualangan PtLSV: ${S.mis2} dari 10 pos, ${S.coin2} koin<br>Skor kuis akhir: ${S.quiz==null?'Belum dikerjakan':S.quiz+' / 100'}</p></section>
+<section><b>Jawaban apersepsi (perbedaan timbangan seimbang dan miring)</b><p>${esc($('ap3').value.trim())}</p></section><section><b>Hal baru yang dipahami</b><p>${esc(d.a)}</p></section><section><b>Kesulitan dan rencana perbaikan</b><p>${esc(d.b)}</p></section><section><b>Manfaat sehari-hari</b><p>${esc(d.c)}</p></section><section><b>Tingkat keyakinan</b><p>${esc(d.d)}</p></section><p>Dicetak: ${new Date().toLocaleString('id-ID')}</p>`;print()}
+
+/* Musik petualangan (semangat, 150 BPM) */
+let AC,ZT=null,ZS=0,ZN=0,MUON=true;
+const CHD=[[523,659,784,659],[440,523,659,523],[349,440,523,440],[392,494,587,494]],BAS=[131,110,87.3,98],
+LDR=[[784,0,0,784,0,0,880,0,784,0,659,0,784,0,0,0],[659,0,0,659,0,0,784,0,659,0,523,0,659,0,0,0],[698,0,0,698,0,0,784,0,698,0,523,0,698,0,880,0],[587,0,0,784,0,0,740,0,784,0,988,0,784,0,0,0]];
+function ctx(){AC=AC||new(window.AudioContext||window.webkitAudioContext)();if(AC.state=='suspended')AC.resume();if(!ZB){ZB=AC.createGain();ZB.gain.value=.55;ZB.connect(AC.destination)}return AC}
+function tone(f,t,d,ty,v){const o=AC.createOscillator(),g=AC.createGain();o.type=ty;o.frequency.value=f;g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.001,t+d);o.connect(g);g.connect(ZB);o.start(t);o.stop(t+d+.02)}
+function kick(t){const o=AC.createOscillator(),g=AC.createGain();o.frequency.setValueAtTime(160,t);o.frequency.exponentialRampToValueAtTime(45,t+.12);g.gain.setValueAtTime(.55,t);g.gain.exponentialRampToValueAtTime(.001,t+.18);o.connect(g);g.connect(ZB);o.start(t);o.stop(t+.2)}
+function nz(t,d,hp,v){const n=Math.floor(AC.sampleRate*d),b=AC.createBuffer(1,n,AC.sampleRate),a=b.getChannelData(0);for(let i=0;i<n;i++)a[i]=Math.random()*2-1;const s=AC.createBufferSource(),f=AC.createBiquadFilter(),g=AC.createGain();s.buffer=b;f.type='highpass';f.frequency.value=hp;g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.001,t+d);s.connect(f);f.connect(g);g.connect(ZB);s.start(t)}
+function stp(t){const b=Math.floor(ZS/16)%4,s=ZS%16;if(s%2==0)tone(BAS[b]*(s%4==2?2:1),t,.16,'triangle',.24);tone(CHD[b][s%4],t,.08,'square',.03);const l=LDR[b][s];if(l)tone(l,t,.22,'square',.05);if(s%4==0)kick(t);if(s==4||s==12)nz(t,.12,1500,.2);if(s%2==0)nz(t,.04,7000,.08);ZS++}
+function sched(){while(ZN<AC.currentTime+.3){stp(ZN);ZN+=.1}}
+function mOn(){if(ZT)return;try{ctx();ZS=0;ZN=AC.currentTime+.05;ZT=setInterval(sched,60)}catch(e){}}
+function mOff(){clearInterval(ZT);ZT=null}
+function adv(){if(P[cur].dataset.t=='Petualangan'&&MUON)mOn();else mOff()}
+function tgM(){MUON=!MUON;document.querySelectorAll('.mbtn').forEach(b=>b.textContent='🎵 Musik: '+(MUON?'Nyala':'Mati'));adv()}
+go(0);
+</script>
+</body>
+</html>
